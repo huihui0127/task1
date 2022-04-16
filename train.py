@@ -66,11 +66,17 @@ def train():
         torch.save(model, "model.pt")
 
         if i % 5 == 0:
-            testdata = testdata.to(device)
-            testlabel = testlabel.to(device)
-            output = model(testdata)
-            correct = acc(output, testlabel)
-            accuracy = correct / len(testlabel)
-            print("test accuracy", accuracy)
+            numBatches = int(len(testdata) / batchSize)
+            for j in range(numBatches):
+                data = testdata[j * batchSize:(j + 1) * batchSize]
+                label = testlabel[j * batchSize:(j + 1) * batchSize]
+                data = data.t()
+                data = data.to(device)
+                output = model(data)
+                label = label.to(device)
+                cor = acc(output, label)
+                accuracy += cor
+
+            print("test accuracy", accuracy / (j + 1) / batchSize)
 
 
