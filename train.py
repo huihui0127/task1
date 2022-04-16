@@ -67,6 +67,7 @@ def train():
 
         if i % 5 == 0:
             numBatches = int(len(testdata) / batchSize)
+            accuracy = 0
             for j in range(numBatches):
                 data = testdata[j * batchSize:(j + 1) * batchSize]
                 label = testlabel[j * batchSize:(j + 1) * batchSize]
